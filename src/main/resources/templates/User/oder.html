@@ -1,0 +1,110 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/layout/layout::dynamic(~{::title},~{::body})}">
+<head>
+<meta charset="utf-8">
+<title>ODER</title>
+
+</head>
+<body>
+	<div id="content-page" class="content-page">
+		<div class="container-fluid checkout-content">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="iq-card">
+						<div class="iq-card-header d-flex justify-content-between">
+							<div class="iq-header-title">
+								<h4 class="card-title">Trạng thái mua hàng</h4>
+							</div>
+
+						</div>
+						<div class="iq-card-body">
+							<div class="table-responsive">
+								<table class="data-tables table table-striped table-bordered"
+									style="width: 100%">
+									<thead>
+										<tr>
+											<th style="width: 10%;">Mã hóa đơn</th>
+											<th style="width: 12%;">Ngày mua</th>
+											<th style="width: 10%;">Tổng tiền</th>
+											<th style="width: 15%;">Phí ship</th>
+											<th style="width: 18%;">Địa chỉ</th>
+											<th style="width: 7%;">Trạng thái</th>
+											<th>Order Detail</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="item in items">
+											<td>{{item.id}}</td>
+											<td>{{item.createDate}}</td>
+											<td>{{item.billtotal}}</td>
+											<td>{{item.ship}}</td>
+											<td>
+												<p class="mb-0">{{item.address}}</p>
+											</td>
+											<td>{{item.status.name}}
+												<button ng-if="item.status.id === 1"
+													ng-click="changeStatus(item.id, 4)"
+													class="btn btn-danger bg-danger">Cancel</button>
+												<button ng-if="item.status.id === 3"
+													ng-click="changeStatus(item.id, 3)"
+													class="btn btn-success bg-success">Đánh giá</button>
+											</td>
+											<td><a href="javascript:void(0)"
+												ng-click="showOrderDetail(item.id)">View Detail</a></td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="modal fade" id="orderDetailModal" tabindex="-1"
+							role="dialog" aria-labelledby="orderDetailModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog modal-lg" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="orderDetailModalLabel">Order
+											Detail</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<table class="data-tables table table-striped table-bordered"
+											style="width: 100%">
+											<thead>
+												<tr>
+													<th style="width: 20%">Image</th>
+													<th style="width: 40%">Product</th>
+													<th style="width: 20%">Price</th>
+													<th style="width: 20%">Quantity</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="orderDetail in selectedOrderDetails">
+													<td><img src="/images/book/{{orderDetail.book.image}}"
+														alt="" style="width: 100px"></td>
+													<td>{{ orderDetail.book.name }}</td>
+													<td>{{ orderDetail.price |number :0}}</td>
+													<td>{{ orderDetail.quantity }}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" ng-click="closeModal()">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+</body>
+</html>
